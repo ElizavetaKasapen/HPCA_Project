@@ -13,6 +13,7 @@ The project aims to compare performance differences between these implementation
 ---
 
 ## 📁 Directory Structure
+```
 DecisionTree_Project/
 │── CPU/                     # OpenMP-based implementation
 │   ├── decision_tree.h
@@ -34,7 +35,7 @@ DecisionTree_Project/
 │── main_standard.exe         # Compiled executable for sequential approach
 │── winequality-white.csv     # Dataset 
 │── README.md                 # Project documentation
-
+```
 ---
 
 ## 🛠️ Installation & Compilation
@@ -85,7 +86,7 @@ Run the compiled executables to compare performance:
 
 ## 📊 Dataset: **Wine Quality Prediction**
 
-The dataset used in this project is **`winequality-white.csv`**, which contains **4,898 rows** of white wine samples with physicochemical test results. The goal is to predict wine quality based on its chemical properties.
+The dataset used in this project is **`winequality-white.csv`**, which contains **4,898 samples** of white wine samples with physicochemical test results. The goal is to predict wine quality based on its chemical properties.
 
 ### **Features (Input Variables)**
 1. **Fixed acidity** – Concentration of non-volatile acids.
