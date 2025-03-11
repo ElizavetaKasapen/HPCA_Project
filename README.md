@@ -30,9 +30,6 @@ DecisionTree_Project/
 │── data_loader.cpp           # Data loading functions
 │── data_loader.h             # Header for data loading
 │── main.cpp                  # Main entry point for execution
-│── main_cuda.exe             # Compiled executable for CUDA
-│── main_openmp.exe           # Compiled executable for OpenMP
-│── main_standard.exe         # Compiled executable for sequential approach
 │── winequality-white.csv     # Dataset 
 │── README.md                 # Project documentation
 ```
