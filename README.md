@@ -63,6 +63,8 @@ g++ -o main_openmp -DUSE_OPENMP main.cpp data_loader.cpp CPU/decision_tree_openm
 nvcc -o main_cuda -DUSE_CUDA main.cpp data_loader.cpp GPU/decision_tree_cuda.cu
 ```
 
+---
+
 ##  🚀 Usage
 Run the compiled executables to compare performance:
 
@@ -78,6 +80,8 @@ Run the compiled executables to compare performance:
 ```sh
  ./main_cuda.exe
  ```
+
+---
 
 ## 📊 Dataset: **Wine Quality Prediction**
 
@@ -108,7 +112,20 @@ For this project, wine quality is categorized into three classes:
 ### **Train-Test Split**
 The dataset is randomly shuffled and split into **80% training data** and **20% test data**.
 
+---
 
+## 📊 Experiment Results
+
+The following results compare the training time and accuracy of different implementations of the Decision Tree algorithm.
+
+| Implementation       | Training Time (seconds) | Accuracy (%)  |
+|----------------------|----------------------:|-------------:|
+| **Sequential**       | 33.4684               | 71.02        |
+| **OpenMP (CPU)**     | 6.6447                | 72.86        |
+| **CUDA (GPU)**       | 0.7253                | 74.08        |
+
+
+---
 ## 📌 Authors
 - **Klejda Rrapaj**: k.rrapaj@student.unisi.it
 - **Sildi Ricku**: s.ricku@student.unisi.it
