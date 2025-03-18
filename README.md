@@ -32,6 +32,8 @@ DecisionTree_Project/
 │── main.cpp                  # Main entry point for execution
 │── winequality-white.csv     # Dataset 
 │── README.md                 # Project documentation
+│── run_experiments.ps1       # Script to run experiments
+│── system_info.ps1           # Script to get system info
 ```
 ---
 
