@@ -81,6 +81,15 @@ Run the compiled executables to compare performance:
  ./main_cuda.exe
  ```
 
+#### **Run Automated Experiments**
+Run the experiments to see and log average execution time and accuracy:
+
+```sh
+.\run_experiments.ps1 -logFile <output_logfile_path> -exeFile <execution_file_path>
+ ```
+
+- Replace <output_logfile_path> with the desired log file location.
+- Replace <execution_file_path> with the path to the executable (e.g., ./main_standard.exe). 
 ---
 
 ## 📊 Dataset: **Wine Quality Prediction**
@@ -120,9 +129,9 @@ The following results compare the training time and accuracy of different implem
 
 | Implementation       | Training Time (seconds) | Accuracy (%)  |
 |----------------------|----------------------:|-------------:|
-| **Sequential**       | 33.4684               | 71.02        |
-| **OpenMP (CPU)**     | 6.6447                | 72.86        |
-| **CUDA (GPU)**       | 0.7253                | 74.08        |
+| **Sequential**       | 28.48988              | 74.32%       |
+| **OpenMP (CPU)**     | 4.283573              | 73.69%       |
+| **CUDA (GPU)**       | 0.3229036             | 74.37%       |
 
 
 ---

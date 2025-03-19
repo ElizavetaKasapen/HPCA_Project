@@ -7,7 +7,7 @@
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 
-#define MAX_CLASSES 3 // Maximum number of classes
+#define MAX_CLASSES 3 
 
 // CUDA kernel: each thread evaluates one candidate split
 __global__ void evaluate_candidates(const double* d_data, const int* d_labels,
@@ -62,7 +62,7 @@ __global__ void evaluate_candidates(const double* d_data, const int* d_labels,
         }
     }
 
-    // Compute weighted Gini impurity
+    // Compute weighted Gini 
     double weighted_gini = 0.0;
     if (num_samples > 0) {
         weighted_gini = (left_total * gini_left + right_total * gini_right) / num_samples;
@@ -74,20 +74,9 @@ __global__ void evaluate_candidates(const double* d_data, const int* d_labels,
     d_candidate_threshold[idx] = threshold;
 }
 
-// Helper: determine the number of classes (assumes labels are nonnegative)
-int get_num_classes(const std::vector<int>& labels) {
-    int max_label = 0;
-    for (int label : labels) {
-        if (label > max_label)
-            max_label = label;
-    }
-    return max_label + 1;
-}
 
-// Constructor: initializes the tree with a given maximum depth and sets root to nullptr
 DecisionTree::DecisionTree(int max_depth) : max_depth(max_depth), root(nullptr) {}
 
-// Destructor: frees memory allocated for the tree nodes
 DecisionTree::~DecisionTree() {
     delete_tree(root);
 }
@@ -118,16 +107,16 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data,
     int num_samples = data.size();
     int num_features = data[0].size();
 
-    std::cout << "Depth: " << depth << ", Samples: " << num_samples << std::endl;
+    //std::cout << "Depth: " << depth << ", Samples: " << num_samples << std::endl;
 
-    // Check stopping conditions: max depth, too few samples, or pure node
+    // Check stopping conditions
     if (depth >= max_depth || num_samples <= 2 ||
         std::all_of(labels.begin(), labels.end(), [&](int v) { return v == labels[0]; })) {
         Node* leaf = new Node();
         leaf->value = most_common_label(labels);
         leaf->left = nullptr;
         leaf->right = nullptr;
-        std::cout << "Created leaf node with value: " << leaf->value << std::endl;
+        //std::cout << "Created leaf node with value: " << leaf->value << std::endl;
         return leaf;
     }
 
@@ -139,7 +128,7 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data,
         }
     }
 
-    int num_classes = get_num_classes(labels);
+    int num_classes = MAX_CLASSES;
 
     // Allocate device memory
     double* d_data, * d_results, * d_candidate_threshold;
@@ -183,7 +172,7 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data,
     cudaFree(d_candidate_feature);
     cudaFree(d_candidate_threshold);
 
-    // Find the best candidate split (minimum weighted Gini) on the host
+    // Find the best candidate split on the host
     double best_gini = 1.0;
     int best_feature = -1;
     double best_threshold = 0.0;
@@ -195,17 +184,17 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data,
         }
     }
 
-    // Fallback: if no valid split was found, create a leaf node
+    // If no valid split was found, create a leaf node
     if (best_feature == -1) {
         Node* leaf = new Node();
         leaf->value = most_common_label(labels);
         leaf->left = nullptr;
         leaf->right = nullptr;
-        std::cout << "Created fallback leaf node with value: " << leaf->value << std::endl;
+       // std::cout << "Created fallback leaf node with value: " << leaf->value << std::endl;
         return leaf;
     }
 
-    std::cout << "Best feature: " << best_feature << ", Best threshold: " << best_threshold << std::endl;
+    //std::cout << "Best feature: " << best_feature << ", Best threshold: " << best_threshold << std::endl;
 
     // Split the data into left and right branches based on the best split
     std::vector<std::vector<double>> left_data, right_data;
@@ -231,14 +220,13 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data,
     return node;
 }
 
-// Trains the decision tree on the provided dataset
 void DecisionTree::fit(const std::vector<std::vector<double>>& data, const std::vector<int>& labels) {
     std::cout << "Starting to build the decision tree..." << std::endl;
     root = build_tree(data, labels, 0);
     std::cout << "Decision tree built successfully." << std::endl;
 }
 
-// Predicts the class label for a given sample by traversing the tree
+
 int DecisionTree::predict(const std::vector<double>& sample) {
     Node* node = root;
     while (node->left || node->right) {

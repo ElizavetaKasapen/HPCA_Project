@@ -60,7 +60,7 @@ Node* DecisionTree::build_tree(const vector<vector<double>>& data, const vector<
     int num_samples = data.size();
     int num_features = data[0].size();
 
-    cout << "Depth: " << depth << ", Samples: " << num_samples << endl;
+    //cout << "Depth: " << depth << ", Samples: " << num_samples << endl;
 
     // Implementation of stopping conditions:
     // - Maximum depth reached
@@ -71,7 +71,7 @@ Node* DecisionTree::build_tree(const vector<vector<double>>& data, const vector<
         leaf->value = most_common_label(labels);  // Corrected leaf assignment
         leaf->left = nullptr;
         leaf->right = nullptr;
-        cout << "Created leaf node with value: " << leaf->value << endl;
+       // cout << "Created leaf node with value: " << leaf->value << endl;
         return leaf;
     }
 
@@ -133,11 +133,11 @@ Node* DecisionTree::build_tree(const vector<vector<double>>& data, const vector<
         leaf->value = most_common_label(labels);
         leaf->left = nullptr;
         leaf->right = nullptr;
-        cout << "Created fallback leaf node with value: " << leaf->value << endl;
+        //cout << "Created fallback leaf node with value: " << leaf->value << endl;
         return leaf;
     }
 
-    cout << "Best feature: " << best_feature << ", Best threshold: " << best_threshold << endl;
+    //cout << "Best feature: " << best_feature << ", Best threshold: " << best_threshold << endl;
 
     // Creation of a new decision node
     Node* node = new Node();

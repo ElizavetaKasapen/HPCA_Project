@@ -51,14 +51,14 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data, con
     int num_samples = data.size();
     int num_features = data[0].size();
 
-    std::cout << "Depth: " << depth << ", Samples: " << num_samples << std::endl;
+    //std::cout << "Depth: " << depth << ", Samples: " << num_samples << std::endl;
 
     if (depth >= max_depth || num_samples <= 2 || std::all_of(labels.begin(), labels.end(), [&](int v) { return v == labels[0]; })) {
         Node* leaf = new Node();
         leaf->value = most_common_label(labels);
         leaf->left = nullptr;
         leaf->right = nullptr;
-        std::cout << "Created leaf node with value: " << leaf->value << std::endl;
+        //std::cout << "Created leaf node with value: " << leaf->value << std::endl;
         return leaf;
     }
 
@@ -98,11 +98,11 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data, con
         leaf->value = most_common_label(labels);
         leaf->left = nullptr;
         leaf->right = nullptr;
-        std::cout << "Created fallback leaf node with value: " << leaf->value << std::endl;
+        //std::cout << "Created fallback leaf node with value: " << leaf->value << std::endl;
         return leaf;
     }
 
-    std::cout << "Best feature: " << best_feature << ", Best threshold: " << best_threshold << std::endl;
+    //std::cout << "Best feature: " << best_feature << ", Best threshold: " << best_threshold << std::endl;
 
     Node* node = new Node();
     node->feature_index = best_feature;

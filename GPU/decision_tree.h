@@ -53,4 +53,4 @@ private:
     int max_depth;  // Maximum allowed depth of the tree
 };
 
-#endif // DECISION_TREE_CUDA_V2_H
+#endif 
