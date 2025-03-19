@@ -11,7 +11,7 @@
 
 // CUDA kernel: each thread evaluates one candidate split
 __global__ void evaluate_candidates(const double* d_data, const int* d_labels,
-    int num_samples, int num_features, int num_classes,
+    int num_samples, int num_features,
     double* d_results, int* d_candidate_feature,
     double* d_candidate_threshold) {
     int idx = blockDim.x * blockIdx.x + threadIdx.x;
@@ -47,7 +47,7 @@ __global__ void evaluate_candidates(const double* d_data, const int* d_labels,
     // Compute Gini for left branch
     double gini_left = 1.0;
     if (left_total > 0) {
-        for (int c = 0; c < num_classes; c++) {
+        for (int c = 0; c < MAX_CLASSES; c++) {
             double p = static_cast<double>(left_counts[c]) / left_total;
             gini_left -= p * p;
         }
@@ -56,7 +56,7 @@ __global__ void evaluate_candidates(const double* d_data, const int* d_labels,
     // Compute Gini for right branch
     double gini_right = 1.0;
     if (right_total > 0) {
-        for (int c = 0; c < num_classes; c++) {
+        for (int c = 0; c < MAX_CLASSES; c++) {
             double p = static_cast<double>(right_counts[c]) / right_total;
             gini_right -= p * p;
         }
@@ -128,8 +128,6 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data,
         }
     }
 
-    int num_classes = MAX_CLASSES;
-
     // Allocate device memory
     double* d_data, * d_results, * d_candidate_threshold;
     int* d_labels, * d_candidate_feature;
@@ -152,7 +150,7 @@ Node* DecisionTree::build_tree(const std::vector<std::vector<double>>& data,
     int blockSize = 256;
     int numBlocks = (total_candidates + blockSize - 1) / blockSize;
     evaluate_candidates << <numBlocks, blockSize >> > (d_data, d_labels, num_samples,
-        num_features, num_classes,
+        num_features,
         d_results, d_candidate_feature,
         d_candidate_threshold);
     cudaDeviceSynchronize();
